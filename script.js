@@ -9,6 +9,7 @@ const operands = document.querySelectorAll(".operators")
 
 displayBtns.forEach((btn) => {
 	btn.addEventListener("click", (event) => {
+		//Checks for length before adding
 		if(currentScreen.textContent.length < 5 && prevScreen.textContent.length < 20){
 			currentScreen.textContent += event.target.textContent;
 		}
@@ -16,6 +17,7 @@ displayBtns.forEach((btn) => {
 })
 
 operands.forEach((operand) => {
+	//Checks when operand is clicked
 	operand.addEventListener("click", (event) => {
 		currentScreen.style.marginTop = "15px"
 		prevScreen.style.visibility = "visible";
@@ -27,12 +29,32 @@ operands.forEach((operand) => {
 const clearScreen = () => {
 	currentScreen.textContent = "";
 	prevScreen.textContent = "";
-	prevScreen.style.visibility= "hidden";
+	prevScreen.style.visibility = "hidden";
 }
 
 const calculate = () => {
-	return;
+	if (prevScreen.textContent.includes("+")){
+		//Gathers only numbers from prevScreen because it contains an operand and converts to int
+		let prevNum = Number(prevScreen.textContent.match(/\d+(\.\d+)?/g));
+		let currentNum = Number(currentScreen.textContent);
+		currentScreen.textContent = prevNum + currentNum;
+		prevScreen.textContent = "";
+	} else if (prevScreen.textContent.includes("-")){
+		let prevNum = Number(prevScreen.textContent.match(/\d+(\.\d+)?/g));
+		let currentNum = Number(currentScreen.textContent);
+		currentScreen.textContent = prevNum - currentNum;
+		prevScreen.textContent = "";
+	} else if (prevScreen.textContent.includes("*")){
+		let prevNum = Number(prevScreen.textContent.match(/\d+(\.\d+)?/g));
+		let currentNum = Number(currentScreen.textContent);
+		currentScreen.textContent = prevNum * currentNum;
+		prevScreen.textContent = "";
+	} else if (prevScreen.textContent.includes("/")){
+		let prevNum = Number(prevScreen.textContent.match(/\d+(\.\d+)?/g));
+		let currentNum = Number(currentScreen.textContent);
+		currentScreen.textContent = prevNum / currentNum;
+		prevScreen.textContent = "";
+	}
 }
-
 clearBtn.addEventListener("click", clearScreen);
-equalBtn.addEventListener("click", calculate)
+equalBtn.addEventListener("click", calculate);
